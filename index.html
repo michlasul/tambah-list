@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tambah List</title>
+  </head>
+  <body class="bg-orange-100">
+    <section class="container mx-auto">
+      <div class="flex w-4/5 lg:w-1/2 mx-auto">
+        <form name="todoForms" class="w-full mt-10">
+          <label
+            class="font-medium text-lg lg:text-2xl text-slate-800 block mb-5"
+          >
+            To-Do:
+          </label>
+          <input
+            id="input"
+            class="px-2 block w-full h-10 bg-orange-50 rounded-md mb-2 focus:outline-3 focus:outline-orange-400"
+            type="text"
+          />
+          <input
+            class="py-2 px-6 rounded-md bg-emerald-600 text-emerald-50"
+            type="submit"
+            value="Add"
+          />
+        </form>
+      </div>
+    </section>
+
+    <section class="container mx-auto mt-20">
+      <div id="box" class="w-4/5 lg:w-1/2 mx-auto bg-emerald-50 p-5 rounded-md">
+        <div id="boxIdea" class="w-full">
+          <div
+            class="bg-emerald-500 px-3 py-2 mb-3 flex rounded-md text-white justify-between items-center"
+          >
+            <h1>Tambahkan todolist</h1>
+            <!--<button id="button" class="py-2 px-6 rounded-md bg-emerald-600 text-emerald-50">Done</button>-->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const todoList = [];
+      const form = document.forms["todoForms"];
+
+      function clearTodoList() {
+        const boxIdea = document.getElementById("boxIdea");
+        while (boxIdea.firstChild) {
+          boxIdea.removeChild(boxIdea.firstChild);
+        }
+      }
+
+      function removeElement(i) {
+        todoList.splice(i, 1);
+        displayElements();
+      }
+
+      function displayElements(i) {
+        clearTodoList();
+
+        for (let i = 0; i < todoList.length; i++) {
+          const todo = todoList[i];
+
+          const tr = document.createElement("div");
+          const td = document.createElement("h1");
+          const tdButton = document.createElement("button");
+
+          tdButton.textContent = "Done";
+
+          tr.setAttribute(
+            "class",
+            "bg-emerald-500 px-3 py-2 mb-3 flex justify-between items-center rounded-md text-white"
+          );
+          td.textContent = todo;
+          tdButton.setAttribute(
+            "class",
+            "py-2 px-6 rounded-md bg-emerald-600 text-emerald-50"
+          );
+          tr.appendChild(td);
+          tr.appendChild(tdButton);
+
+          const boxIdea = document.getElementById("boxIdea");
+          boxIdea.appendChild(tr);
+
+          tdButton.onclick = function () {
+            removeElement(i);
+          };
+        }
+      }
+
+      form.onsubmit = function (event) {
+        event.preventDefault();
+        const todo = document.getElementById("input").value;
+        todoList.push(todo);
+
+        form.reset();
+
+        console.info(todoList);
+        displayElements();
+      };
+    </script>
+  </body>
+</html>
